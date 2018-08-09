@@ -880,7 +880,7 @@ UniValue signmnpmessage(const UniValue& params, bool fHelp)
 
     //cout << CBitcoinAddress(pubkeyCollate.GetID()).ToString() <<endl;
          
-    strMessage = Ipaddr.ToString(false) + pubkeyCollate.GetID().ToString() + pubkeyMaster.GetID().ToString() +
+    strMessage = Ipaddr.ToStringIP(false) + pubkeyCollate.GetID().ToString() + pubkeyMaster.GetID().ToString() +
 			boost::lexical_cast<std::string>(PROTOCOL_VERSION);
    
     cout<< strMessage<< endl;
