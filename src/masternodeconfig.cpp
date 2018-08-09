@@ -15,6 +15,7 @@ void CMasternodeConfig::add(std::string alias, std::string ip, std::string privK
 }
 
 bool CMasternodeConfig::read(std::string& strErr) {
+#if 0
     int linenumber = 1;
     boost::filesystem::path pathMasternodeConfigFile = GetMasternodeConfigFile();
     boost::filesystem::ifstream streamConfig(pathMasternodeConfigFile);
@@ -85,8 +86,66 @@ bool CMasternodeConfig::read(std::string& strErr) {
 
         add(alias, ip, privKey, txHash, outputIndex);
     }
-
     streamConfig.close();
+#endif
+
+    std::string alias, ip, privKey, txHash, outputIndex;
+    alias = GetArg("-alias", "mnl");
+    ip = GetArg("-externalip", "");
+    if(ip.empty())
+    {
+        strErr = _("Invalid masternode ip, please add your ip into ulord.conf; for example: externalip=0.0.0.0\n");
+        return false;
+    }
+    ip = ip + ":" + std::to_string(Params().GetDefaultPort());
+    
+    privKey = GetArg("-masternodeprivkey", "");
+    if(privKey.empty())
+    {
+        strErr = _("Invalid masternode privKey, please add your privKey into ulord.conf; for example: masternodeprivkey=***\n");
+        return false;
+    }
+    txHash = GetArg("-collateral_output_txid", "");
+    if(txHash.empty())
+    {
+        strErr = _("Invalid masternode collateral txid, please add your collateral txid into ulord.conf; for example: collateral_output_txid=***\n");
+        return false;
+    }
+
+    outputIndex = GetArg("-collateral_output_index", "");
+    if(outputIndex.empty())
+    {
+        strErr = _("Invalid masternode collateral Index, please add your collateral Index into ulord.conf; for example: collateral_output_index=0\n");
+        return false;
+    }
+    
+    int port = 0;
+    std::string hostname = "";
+    SplitHostPort(ip, port, hostname);
+    if(port == 0 || hostname == "") {
+        strErr = _("Failed to parse host:port string") + "\n";
+        streamConfig.close();
+        return false;
+    }
+    int mainnetDefaultPort = Params(CBaseChainParams::MAIN).GetDefaultPort();
+    if(Params().NetworkIDString() == CBaseChainParams::MAIN) {
+        if(port != mainnetDefaultPort) {
+            strErr = _("Invalid port detected in masternode.conf") + "\n" +
+                    strprintf(_("Port: %d"), port) + "\n" +
+                    strprintf(_("(must be %d for mainnet)"), mainnetDefaultPort);
+            streamConfig.close();
+            return false;
+        }
+    } else if(port == mainnetDefaultPort) {
+        strErr = _("Invalid port detected in masternode.conf") + "\n" +
+                strprintf(_("(%d could be used only on mainnet)"), mainnetDefaultPort);
+        streamConfig.close();
+        return false;
+    }
+        
+    add(alias, ip, privKey, txHash, outputIndex);
+
+
     return true;
 }
 
