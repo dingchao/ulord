@@ -124,7 +124,6 @@ bool CMasternodeConfig::read(std::string& strErr) {
     SplitHostPort(ip, port, hostname);
     if(port == 0 || hostname == "") {
         strErr = _("Failed to parse host:port string") + "\n";
-        streamConfig.close();
         return false;
     }
     int mainnetDefaultPort = Params(CBaseChainParams::MAIN).GetDefaultPort();
@@ -133,13 +132,11 @@ bool CMasternodeConfig::read(std::string& strErr) {
             strErr = _("Invalid port detected in masternode.conf") + "\n" +
                     strprintf(_("Port: %d"), port) + "\n" +
                     strprintf(_("(must be %d for mainnet)"), mainnetDefaultPort);
-            streamConfig.close();
             return false;
         }
     } else if(port == mainnetDefaultPort) {
         strErr = _("Invalid port detected in masternode.conf") + "\n" +
                 strprintf(_("(%d could be used only on mainnet)"), mainnetDefaultPort);
-        streamConfig.close();
         return false;
     }
         
