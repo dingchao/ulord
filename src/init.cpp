@@ -1828,7 +1828,6 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
         }
     }
 
-    LogPrintf("Using masternode config file %s\n", GetMasternodeConfigFile().string());
 
     #ifdef ENABLE_WALLET
     if(GetBoolArg("-mnconflock", true) && pwalletMain && (masternodeConfig.getCount() > 0)) {

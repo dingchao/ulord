@@ -120,7 +120,7 @@ private:
     QAction *openPeersAction;
     QAction *openRepairAction;
     QAction *openConfEditorAction;
-    QAction *openMNConfEditorAction;
+    //QAction *openMNConfEditorAction;
     QAction *showBackupsAction;
     QAction *openAction;
     QAction *showHelpMessageAction;

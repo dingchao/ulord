@@ -454,7 +454,7 @@ void BitcoinGUI::createActions()
 
     // Open configs and backup folder from menu
     connect(openConfEditorAction, SIGNAL(triggered()), this, SLOT(showConfEditor()));
-    connect(openMNConfEditorAction, SIGNAL(triggered()), this, SLOT(showMNConfEditor()));
+    //connect(openMNConfEditorAction, SIGNAL(triggered()), this, SLOT(showMNConfEditor()));
     connect(showBackupsAction, SIGNAL(triggered()), this, SLOT(showBackups()));
 
     // Get restart command-line parameters and handle restart
@@ -803,10 +803,12 @@ void BitcoinGUI::showConfEditor()
     GUIUtil::openConfigfile();
 }
 
+#if 0
 void BitcoinGUI::showMNConfEditor()
 {
     GUIUtil::openMNConfigfile();
 }
+#endif 
 
 void BitcoinGUI::showBackups()
 {
