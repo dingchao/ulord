@@ -851,7 +851,7 @@ UniValue signmnpmessage(const UniValue& params, bool fHelp)
     string straddr = params[2].get_str();
 	
 	CNetAddr netAddr(straddr);
-    CService Ipaddr(netAddr);
+    CService Ipaddr(netAddr,0);
 
 	CKey         keyCollate; 
 	CPubKey      pubkeyCollate; 
