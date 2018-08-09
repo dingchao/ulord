@@ -91,6 +91,10 @@ bool CMasternodeConfig::read(std::string& strErr) {
 
     std::string alias, ip, privKey, txHash, outputIndex;
     alias = GetArg("-alias", "mnl");
+    if(alias.empty())
+    {
+        strErr = _("please add your masternode name into ulord.conf; for example: alias=mynode\n");
+    }
     ip = GetArg("-externalip", "");
     if(ip.empty())
     {
@@ -129,19 +133,18 @@ bool CMasternodeConfig::read(std::string& strErr) {
     int mainnetDefaultPort = Params(CBaseChainParams::MAIN).GetDefaultPort();
     if(Params().NetworkIDString() == CBaseChainParams::MAIN) {
         if(port != mainnetDefaultPort) {
-            strErr = _("Invalid port detected in masternode.conf") + "\n" +
+            strErr = _("Invalid port detected in ulord.conf") + "\n" +
                     strprintf(_("Port: %d"), port) + "\n" +
                     strprintf(_("(must be %d for mainnet)"), mainnetDefaultPort);
             return false;
         }
     } else if(port == mainnetDefaultPort) {
-        strErr = _("Invalid port detected in masternode.conf") + "\n" +
+        strErr = _("Invalid port detected in ulord.conf") + "\n" +
                 strprintf(_("(%d could be used only on mainnet)"), mainnetDefaultPort);
         return false;
     }
         
     add(alias, ip, privKey, txHash, outputIndex);
-
 
     return true;
 }
