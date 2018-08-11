@@ -776,7 +776,7 @@ bool CMasternodeBroadcast::getPubKeyId(CKeyID& pubKeyId)
     uint256 txHash = uint256S(mne.getTxHash());
     LogPrintf("CMasternodeBroadcast::getPubKeyId -- hash=%s  index=%d \n", mne.getTxHash(), index);	
 
-#if 1
+#if 0
     CTransaction tx;
     uint256 hashBlock;
     if(GetTransaction(txHash, tx, Params().GetConsensus(), hashBlock, true))
@@ -790,7 +790,7 @@ bool CMasternodeBroadcast::getPubKeyId(CKeyID& pubKeyId)
     CBitcoinAddress address2(address1);
 #else
     CCoins coins;
-    if(pcoinsTip->GetCoins(txHash, coins))
+    if(!pcoinsTip->GetCoins(txHash, coins))
     {
         LogPrintf("CMasternodeBroadcast::getPubKeyId -- masternode collateraloutputtxid or collateraloutputindex is error,please check it\n");
         return false;
