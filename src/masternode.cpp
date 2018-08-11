@@ -788,8 +788,6 @@ bool CMasternodeBroadcast::getPubKeyId(CKeyID& pubKeyId)
     CTxDestination address1;
     ExtractDestination(tx.vout[index].scriptPubKey, address1);
     CBitcoinAddress address2(address1);
-    
-    return GetVinAndKeysFromOutput(tx.vout[index],txinRet, pubKeyRet, keyRet);    
 #else
     CCoins coins;
     if(pcoinsTip->GetCoins(txHash, coins))
