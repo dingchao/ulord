@@ -766,12 +766,22 @@ bool CMasternodeBroadcast::CheckOutpoint(int& nDos)
 bool CMasternodeBroadcast::getPubKeyId(CKeyID& pubKeyId)
 {
 	CMasternodeConfig::CMasternodeEntry mne = masternodeConfig.GetLocalEntry();
+    if(mne.getTxHash().empty())
+    {
+        LogPrintf("CMasternodeBroadcast::getPubKeyId -- masternode collateraloutputtxid is empty, please set it in ulord.conf\n");
+        return false;
+    }
 	int index = atoi(mne.getOutputIndex().c_str());
 	uint256 txHash = uint256S(mne.getTxHash());
-	
+    LogPrintf("CMasternodeBroadcast::getPubKeyId -- hash=%s  index=%d \n", mne.getTxHash(), index);	
+    
     CCoins coins;
-    pcoinsTip->GetCoins(txHash, coins);
-	
+    if(pcoinsTip->GetCoins(txHash, coins))
+    {
+        LogPrintf("CMasternodeBroadcast::getPubKeyId -- masternode collateraloutputtxid or collateraloutputindex is error,please check it\n");
+        return false;
+    }
+    
     CTxDestination address1;
     ExtractDestination(coins.vout[index].scriptPubKey, address1);
     CBitcoinAddress address2(address1);

@@ -2812,24 +2812,13 @@ bool CWallet::GetMasternodeVinAndKeys(CTxIn& txinRet,  std::string strTxHash, st
 
     if(strTxHash.empty()) // No output specified, select the one specified by masternodeConfig
     {
-    	CMasternodeConfig::CMasternodeEntry mne = masternodeConfig.GetLocalEntry();
-        if(mne.getPrivKey() != "")
+        if(masternodeConfig.IsLocalEntry())
 	    {
+	        CMasternodeConfig::CMasternodeEntry mne = masternodeConfig.GetLocalEntry();
             int index = atoi(mne.getOutputIndex().c_str());
             uint256 txHash = uint256S(mne.getTxHash());
             txinRet = CTxIn(txHash, index);
-			#if 0
-            CTransaction tx;
-            uint256 hashBlock;
-            GetTransaction(txHash, tx, Params().GetConsensus(), hashBlock, true);
-			return GetVinAndKeysFromOutput(tx.vout[index],txinRet, pubKeyRet, keyRet);
-			#else
-			
-			CCoins coins;
-        	pcoinsTip->GetCoins(txHash, coins);
-		
             return true;
-			#endif
 	    }
 	    LogPrintf("CWallet::GetMasternodeVinAndKeys -- Could not locate the masternode configure vin, please check the ulord.conf\n");
 	    return false;
@@ -2841,10 +2830,11 @@ bool CWallet::GetMasternodeVinAndKeys(CTxIn& txinRet,  std::string strTxHash, st
 
 	txinRet = CTxIn(txHash,nOutputIndex);
     CCoins coins;
-    pcoinsTip->GetCoins(txHash, coins);
-		
-    return true;
-
+    if(pcoinsTip->GetCoins(txHash, coins))	
+    {
+        return true;
+    }
+    
     LogPrintf("CWallet::GetMasternodeVinAndKeys -- Could not locate specified masternode vin\n");
     return false;
 }
