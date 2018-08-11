@@ -4,6 +4,19 @@
 #include "util.h"
 #include "chainparams.h"
 
+#include "coincontrol.h"
+#include "key.h"
+#include "main.h"
+#include "script/script.h"
+#include "script/sign.h"
+#include "txmempool.h"
+
+#include "privsend.h"
+
+#include "spork.h"
+
+
+
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 
