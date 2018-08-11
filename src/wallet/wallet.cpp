@@ -2803,7 +2803,7 @@ bool CWallet::GetCollateralTxIn(CTxIn& txinRet, CAmount& nValueRet) const
 
     return false;
 }
-
+/*
 bool CWallet::GetMasternodeVinAndKeys(CTxIn& txinRet,  std::string strTxHash, std::string strOutputIndex)
 {
     // wait for reindex and/or import to finish
@@ -2837,7 +2837,7 @@ bool CWallet::GetMasternodeVinAndKeys(CTxIn& txinRet,  std::string strTxHash, st
     
     LogPrintf("CWallet::GetMasternodeVinAndKeys -- Could not locate specified masternode vin\n");
     return false;
-}
+}*/
 
 bool CWallet::GetVinAndKeysFromOutput(CTxOut vout, CTxIn& txinRet, CPubKey& pubKeyRet, CKey& keyRet)
 {

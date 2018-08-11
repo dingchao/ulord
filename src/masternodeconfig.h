@@ -97,8 +97,9 @@ public:
         return (int)entries.size();
     }
 
-	CMasternodeConfig::CMasternodeEntry GetLocalEntry();
-	bool IsLocalEntry();
+    CMasternodeConfig::CMasternodeEntry GetLocalEntry();
+    bool IsLocalEntry();
+    bool GetMasternodeVin(CTxIn& txinRet,  std::string strTxHash = "", std::string strOutputIndex = "");
 
 private:
     std::vector<CMasternodeEntry> entries;
