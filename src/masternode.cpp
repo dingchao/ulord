@@ -775,7 +775,22 @@ bool CMasternodeBroadcast::getPubKeyId(CKeyID& pubKeyId)
     int index = atoi(mne.getOutputIndex().c_str());
     uint256 txHash = uint256S(mne.getTxHash());
     LogPrintf("CMasternodeBroadcast::getPubKeyId -- hash=%s  index=%d \n", mne.getTxHash(), index);	
+
+#if 1
+    CTransaction tx;
+    uint256 hashBlock;
+    if(GetTransaction(txHash, tx, Params().GetConsensus(), hashBlock, true))
+    {
+        LogPrintf("CMasternodeBroadcast::getPubKeyId -- masternode collateraloutputtxid or collateraloutputindex is error,please check it\n");
+        return false;
+    }
+
+    CTxDestination address1;
+    ExtractDestination(tx.vout[index].scriptPubKey, address1);
+    CBitcoinAddress address2(address1);
     
+    return GetVinAndKeysFromOutput(tx.vout[index],txinRet, pubKeyRet, keyRet);    
+#else
     CCoins coins;
     if(pcoinsTip->GetCoins(txHash, coins))
     {
@@ -786,6 +801,7 @@ bool CMasternodeBroadcast::getPubKeyId(CKeyID& pubKeyId)
     CTxDestination address1;
     ExtractDestination(coins.vout[index].scriptPubKey, address1);
     CBitcoinAddress address2(address1);
+#endif
 
     if (!address2.GetKeyID(pubKeyId)) {
         LogPrintf("CMasternodeBroadcast::getPubKeyId -- Address does not refer to a key\n");
