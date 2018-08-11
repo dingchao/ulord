@@ -694,7 +694,7 @@ bool CMasternodeBroadcast::CheckOutpoint(int& nDos)
     }
 
     {
-	const CAmount ct = Params().GetConsensus().colleteral;		// colleteral
+        const CAmount ct = Params().GetConsensus().colleteral;		// colleteral
         TRY_LOCK(cs_main, lockMain);
         if(!lockMain) {
             // not mnb fault, let it to be checked again later
@@ -752,27 +752,28 @@ bool CMasternodeBroadcast::CheckOutpoint(int& nDos)
         }
     }
 
-	// check if it is registered on the Ulord center server
-	if(!mnodecenter.VerifyLicense(*this))
-	{
-		nActiveState = MASTERNODE_CERTIFICATE_FAILED;
-		LogPrintf("CMasternodeBroadcast::CheckOutpoint -- Failed to check Masternode certificate, masternode=%s\n", vin.prevout.ToStringShort());
-		return false;
-	}
+    // check if it is registered on the Ulord center server
+    if(!mnodecenter.VerifyLicense(*this))
+    {
+        nActiveState = MASTERNODE_CERTIFICATE_FAILED;
+        LogPrintf("CMasternodeBroadcast::CheckOutpoint -- Failed to check Masternode certificate, masternode=%s\n", vin.prevout.ToStringShort());
+        return false;
+    }
 
     return true;
 }
 
 bool CMasternodeBroadcast::getPubKeyId(CKeyID& pubKeyId)
 {
-	CMasternodeConfig::CMasternodeEntry mne = masternodeConfig.GetLocalEntry();
+    CMasternodeConfig::CMasternodeEntry mne = masternodeConfig.GetLocalEntry();
+    LogPrintf("CMasternodeBroadcast::getPubKeyId -- hash=%s \n", mne.getTxHash());	
     if(mne.getTxHash().empty())
     {
         LogPrintf("CMasternodeBroadcast::getPubKeyId -- masternode collateraloutputtxid is empty, please set it in ulord.conf\n");
         return false;
     }
-	int index = atoi(mne.getOutputIndex().c_str());
-	uint256 txHash = uint256S(mne.getTxHash());
+    int index = atoi(mne.getOutputIndex().c_str());
+    uint256 txHash = uint256S(mne.getTxHash());
     LogPrintf("CMasternodeBroadcast::getPubKeyId -- hash=%s  index=%d \n", mne.getTxHash(), index);	
     
     CCoins coins;
