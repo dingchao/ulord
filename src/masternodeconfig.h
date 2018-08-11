@@ -6,6 +6,8 @@
 #ifndef SRC_MASTERNODECONFIG_H_
 #define SRC_MASTERNODECONFIG_H_
 
+#include "primitives/transaction.h"
+
 class CMasternodeConfig;
 extern CMasternodeConfig masternodeConfig;
 
