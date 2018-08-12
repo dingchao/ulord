@@ -182,7 +182,8 @@ bool CMasternodeConfig::IsLocalEntry()
 	return false;
 }
 
-bool CMasternodeConfig::GetMasternodeVin(CTxIn& txinRet,  std::string strTxHash = "", std::string strOutputIndex = "")
+bool CMasternodeConfig::GetMasternodeVin(CTxIn& txinRet,  std::string strTxHash, std::string strOutputIndex)
+//bool CMasternodeConfig::GetMasternodeVin(CTxIn& txinRet, CPubKey& pubKeyRet, CKey& keyRet, std::string strTxHash, std::string strOutputIndex)
 {
     // wait for reindex and/or import to finish
     if (fImporting || fReindex) return false;
