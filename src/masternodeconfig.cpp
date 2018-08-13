@@ -7,7 +7,6 @@
 #include "coins.h"
 #include "main.h"
 
-
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 
