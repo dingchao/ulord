@@ -282,7 +282,7 @@ void CActiveMasternode::ManageStateRemote()
     }
 }
 
-#ifdef ENABLE_WALLET
+
 void CActiveMasternode::ManageStateLocal()
 {
     LogPrint("masternode", "CActiveMasternode::ManageStateLocal -- status = %s, type = %s, pinger enabled = %d\n", GetStatus(), GetTypeString(), fPingerEnabled);
@@ -345,4 +345,4 @@ void CActiveMasternode::ManageStateLocal()
         mnb.Relay();
     }
 }
-#endif // ENABLE_WALLET
+
