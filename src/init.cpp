@@ -64,6 +64,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
+
 #ifndef WIN32
 #include <signal.h>
 #endif
@@ -566,7 +567,7 @@ std::string HelpMessage(HelpMessageMode mode)
 
     strUsage += HelpMessageGroup(_("Masternode options:"));
     strUsage += HelpMessageOpt("-masternode=<n>", strprintf(_("Enable the client to act as a masternode (0-1, default: %u)"), 0));
-    //strUsage += HelpMessageOpt("-mnconf=<file>", strprintf(_("Specify masternode configuration file (default: %s)"), "masternode.conf"));
+   
     strUsage += HelpMessageOpt("-mnconflock=<n>", strprintf(_("Lock masternodes from masternode configuration file (default: %u)"), 1));
     strUsage += HelpMessageOpt("-masternodeprivkey=<n>", _("Set the masternode private key"));
 
@@ -1971,7 +1972,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 
     SetRPCWarmupFinished();
     uiInterface.InitMessage(_("Done loading"));
-	is_Init = true;
+
 #ifdef ENABLE_WALLET
     if (pwalletMain) {
         // Add wallet transactions that aren't already in a block to mapTransactions

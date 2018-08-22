@@ -9,7 +9,7 @@
 #include "protocol.h"
 #include "masternodeconfig.h"
 
-//extern CWallet* pwalletMain;
+
 
 // Keep track of the active Masternode
 CActiveMasternode activeMasternode;
@@ -233,7 +233,7 @@ LogPrintf("GetLocal() = %c, IsValidNetAddr = %c \n", GetLocal(service, &pnode->a
 #endif // ENABLE_WALLET
 #endif
 
-	if(masternodeConfig.IsLocalEntry())
+	if(masternodeConfig.GetMasternodeVin(vin))
 	{
 		eType = MASTERNODE_LOCAL;
 	}
@@ -258,6 +258,12 @@ void CActiveMasternode::ManageStateRemote()
         if(service != infoMn.addr) {
             nState = ACTIVE_MASTERNODE_NOT_CAPABLE;
             strNotCapableReason = "Specified IP doesn't match our external address.";
+            LogPrintf("CActiveMasternode::ManageStateRemote -- %s: %s\n", GetStateString(), strNotCapableReason);
+            return;
+        }
+        if(vin != infoMn.vin) {
+            nState = ACTIVE_MASTERNODE_NOT_CAPABLE;
+            strNotCapableReason = "Specified collateraloutputtxid doesn't match our external vin.";
             LogPrintf("CActiveMasternode::ManageStateRemote -- %s: %s\n", GetStateString(), strNotCapableReason);
             return;
         }
@@ -292,9 +298,7 @@ void CActiveMasternode::ManageStateLocal()
 
     // Choose coins to use
 
-    //if(pwalletMain->GetMasternodeVinAndKeys(vin)) 
-    if(masternodeConfig.GetMasternodeVin(vin))
-    {
+    if(masternodeConfig.GetMasternodeVin(vin)) {
         int nInputAge = GetInputAge(vin);
         if(nInputAge < Params().GetConsensus().nMasternodeMinimumConfirmations){
             nState = ACTIVE_MASTERNODE_INPUT_TOO_NEW;

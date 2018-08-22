@@ -435,17 +435,6 @@ void openConfigfile()
         QDesktopServices::openUrl(QUrl::fromLocalFile(boostPathToQString(pathConfig)));
 }
 
-#if 0
-void openMNConfigfile()
-{
-    boost::filesystem::path pathConfig = GetMasternodeConfigFile();
-
-    /* Open masternode.conf with the associated application */
-    if (boost::filesystem::exists(pathConfig))
-        QDesktopServices::openUrl(QUrl::fromLocalFile(boostPathToQString(pathConfig)));
-}
-#endif
-
 void showBackups()
 {
     boost::filesystem::path backupsDir = GetBackupsDir();

@@ -149,7 +149,7 @@ void MasternodeList::StartAll(std::string strCommand)
             strFailedHtml += "\nFailed to start " + mne.getAlias() + ". Error: " + strError;
         }
     }
-    //pwalletMain->Lock();
+    pwalletMain->Lock();
 
     std::string returnObj;
     returnObj = strprintf("Successfully started %d masternodes, failed to start %d, total %d", nCountSuccessful, nCountFailed, nCountFailed + nCountSuccessful);

@@ -147,7 +147,7 @@ const boost::filesystem::path &GetDataDir(bool fNetSpecific = true);
 const boost::filesystem::path &GetBackupsDir();
 void ClearDatadirCache();
 boost::filesystem::path GetConfigFile();
-//boost::filesystem::path GetMasternodeConfigFile();
+
 #ifndef WIN32
 boost::filesystem::path GetPidFile();
 void CreatePidFile(const boost::filesystem::path &path, pid_t pid);
@@ -270,5 +270,10 @@ template <typename Callable> void TraceThread(const char* name,  Callable func)
         throw;
     }
 }
+
+int write_profile_string_nosection( const std::string & key, const std::string & value, const std::string & file);
+int write_profile_string_nosection( const char *key, const char *value, const char *file);
+int read_profile_string_nosection(   const char *key,char *value, 
+				 int size, const char *default_value, const char *file);
 
 #endif // BITCOIN_UTIL_H
